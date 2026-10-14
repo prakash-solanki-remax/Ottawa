@@ -23,10 +23,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ottawa Real Estate & Home Valuations | Prakash Solanki, REALTOR®</title>
     
+    <!-- Open Graph Meta Tags for Facebook Link Previews -->
     <meta property="og:title" content="Ottawa Real Estate & Home Valuations | Prakash Solanki, REALTOR®">
     <meta property="og:description" content="Professional Home Valuations & Custom Buyer Searches across Ottawa, Kanata, Barrhaven & Nepean. 100% Free, Zero Obligation.">
     <meta property="og:image" content="https://solankihomes.ca/ottawa/remax_logo.png">
-    <meta property="og:url" content="https://solankihomes.ca/ottawa">
+    <meta property="og:url" content="https://solankihomes.ca/ottawa/">
     <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -139,6 +140,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         @media(min-width: 768px) { .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
         .card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-top: 5px solid #003399; padding: 24px 20px; border-radius: 14px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.06); }
         
+        /* Accordion FAQ Styles */
+        .faq-section { background-color: #f1f5f9; padding: 60px 16px; border-top: 1px solid #cbd5e1; }
+        .faq-container { max-width: 850px; margin: 0 auto; }
+        .faq-accordion-item { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: border-color 0.2s ease; }
+        .faq-accordion-item.active { border-color: #003399; }
+        .faq-question-btn { width: 100%; padding: 18px 20px; background: none; border: none; text-align: left; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; color: #0f172a; display: flex; align-items: center; justify-content: space-between; cursor: pointer; gap: 12px; }
+        .faq-question-btn i { color: #dc2626; font-size: 14px; transition: transform 0.3s ease; flex-shrink: 0; }
+        .faq-accordion-item.active .faq-question-btn i { transform: rotate(180deg); }
+        .faq-answer-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out, padding 0.35s ease; padding: 0 20px; background: #f8fafc; color: #475569; font-size: 14px; line-height: 1.6; font-weight: 500; }
+        .faq-accordion-item.active .faq-answer-panel { max-height: 300px; padding: 0 20px 20px 20px; border-top: 1px solid #e2e8f0; }
+
         .site-footer { background: linear-gradient(135deg, #020617 0%, #070d1d 100%); color: #94a3b8; padding: 50px 20px 30px; border-top: 3px solid #003399; }
         .footer-container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center; }
         @media(min-width: 768px) { .footer-container { grid-template-columns: 1.2fr 1fr; gap: 50px; } }
@@ -224,13 +236,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 
                 <!-- OTTAWA SELLER FORM -->
                 <div class="form-pane active" id="pane-selling">
-                    <div class="form-card">
+                    <div class="form-card" id="valuationFormCard">
                         <div style="text-align: center; margin-bottom: 16px;">
                             <h3 style="font-size: 19px; font-weight: 800; color: #0f172a;">Ottawa Home Valuation</h3>
                             <p style="font-size: 12px; color: #64748b; margin-top: 2px; font-weight: 600;">100% Free & Zero Obligation</p>
                         </div>
-                        <iframe name="hidden_iframe_os" id="hidden_iframe_os" style="display:none;" onload="if(isSubmitted) { showSuccessMessage('pane-selling'); }"></iframe>
-                        <form action="https://docs.google.com/forms/d/e/1FAIpQLSd1vHaxMmVom1bMSJ_OkczJHxZjIKBQRUrEoUoPdoWeEhG35Q/formResponse" method="POST" target="hidden_iframe_os" onsubmit="submitted();">
+                        <iframe name="hidden_iframe_os" id="hidden_iframe_os" style="display:none;" onload="if(isSellingSubmitted) { showSuccessMessage('pane-selling'); }"></iframe>
+                        <form id="valuationForm" action="https://docs.google.com/forms/d/e/1FAIpQLSd1vHaxMmVom1bMSJ_OkczJHxZjIKBQRUrEoUoPdoWeEhG35Q/formResponse" method="POST" target="hidden_iframe_os" onsubmit="submittedSelling();">
                             <div class="form-group"><label class="form-label">Property Address</label>
                             <div class="form-input-wrap"><span class="form-icon"><i class="fa-solid fa-location-dot"></i></span>
                             <input type="text" id="seller-first-field" name="entry.752686543" required placeholder="Street Address & Municipality" class="form-input"></div></div>
@@ -263,7 +275,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <input type="email" name="entry.12882469" required placeholder="yourname@example.com" class="form-input"></div></div>
                             <button type="submit" class="submit-btn" style="margin-top: 8px;"><span>Get My Free Valuation</span> <i class="fa-solid fa-arrow-right"></i></button>
                         </form>
-                        <div class="formSuccessBox" style="display: none; text-align: center; padding: 24px 0;">
+                        <div class="formSuccessBox" id="formSuccessSelling" style="display: none; text-align: center; padding: 24px 0;">
                             <div style="width: 50px; height: 50px; background-color: #dcfce7; color: #16a34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 22px;">✓</div>
                             <h4 style="font-size: 20px; font-weight: 800; color: #0f172a;">Request Received!</h4>
                             <p style="font-size: 14px; color: #475569; margin-top: 6px;">Thank you! Prakash Solanki will compile your Ottawa market report promptly.</p>
@@ -273,13 +285,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 <!-- OTTAWA BUYER FORM -->
                 <div class="form-pane" id="pane-buying">
-                    <div class="form-card">
+                    <div class="form-card" id="buyerFormCard">
                         <div style="text-align: center; margin-bottom: 16px;">
                             <h3 style="font-size: 19px; font-weight: 800; color: #0f172a;">Start Your Ottawa Search</h3>
                             <p style="font-size: 12px; color: #64748b; margin-top: 2px; font-weight: 600;">Get custom property updates</p>
                         </div>
-                        <iframe name="hidden_iframe_ob" id="hidden_iframe_ob" style="display:none;" onload="if(isSubmitted) { showSuccessMessage('pane-buying'); }"></iframe>
-                        <form action="https://docs.google.com/forms/d/e/1FAIpQLSdDB9fhqRgId80FQxP5BSj16w5U0du8uOOoWRg30jQ8HMUuhA/formResponse" method="POST" target="hidden_iframe_ob" onsubmit="submitted();">
+                        <iframe name="hidden_iframe_ob" id="hidden_iframe_ob" style="display:none;" onload="if(isBuyingSubmitted) { showSuccessMessage('pane-buying'); }"></iframe>
+                        <form id="buyerForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdDB9fhqRgId80FQxP5BSj16w5U0du8uOOoWRg30jQ8HMUuhA/formResponse" method="POST" target="hidden_iframe_ob" onsubmit="submittedBuying();">
                             <div class="form-group"><label class="form-label">Preferred Ottawa Neighborhood</label>
                             <div class="form-input-wrap"><span class="form-icon"><i class="fa-solid fa-location-dot"></i></span>
                             <input type="text" id="buyer-first-field" name="entry.39196713" required placeholder="e.g., Kanata, Barrhaven, Orleans" class="form-input"></div></div>
@@ -319,7 +331,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <input type="email" name="entry.863177044" required placeholder="yourname@example.com" class="form-input"></div></div>
                             <button type="submit" class="submit-btn" style="margin-top: 8px;"><span>Get Custom Ottawa Listings</span> <i class="fa-solid fa-arrow-right"></i></button>
                         </form>
-                        <div class="formSuccessBox" style="display: none; text-align: center; padding: 24px 0;">
+                        <div class="formSuccessBox" id="formSuccessBuying" style="display: none; text-align: center; padding: 24px 0;">
                             <div style="width: 50px; height: 50px; background-color: #dcfce7; color: #16a34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 22px;">✓</div>
                             <h4 style="font-size: 20px; font-weight: 800; color: #0f172a;">Request Received!</h4>
                             <p style="font-size: 14px; color: #475569; margin-top: 6px;">Thank you! Prakash Solanki will review your criteria and send matching Ottawa listings.</p>
@@ -359,6 +371,71 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </section>
 
+    <!-- Interactive Accordion FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div style="text-align: center; margin-bottom: 35px;">
+                <span style="color: #dc2626; font-weight: 800; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;">Got Questions?</span>
+                <h2 style="font-size: 26px; font-weight: 800; color: #0f172a; margin-top: 6px;">Frequently Asked Questions</h2>
+            </div>
+
+            <!-- FAQ Item 1 -->
+            <div class="faq-accordion-item">
+                <button type="button" class="faq-question-btn" onclick="toggleFaq(this)">
+                    <span>How do I get started with buying a home in Ottawa?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer-panel">
+                    Simply switch to the "Buying in Ottawa" tab above, fill out your preferred neighborhood, property type, and budget range, and Prakash Solanki will set up custom property alerts tailored directly to your criteria.
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-accordion-item">
+                <button type="button" class="faq-question-btn" onclick="toggleFaq(this)">
+                    <span>Is the Ottawa home valuation report really 100% free?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer-panel">
+                    Yes! Your comparative market analysis report and initial consultation come at zero cost and with absolute zero sales pressure or obligation to list.
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-accordion-item">
+                <button type="button" class="faq-question-btn" onclick="toggleFaq(this)">
+                    <span>Do you assist with out-of-town relocations to Ottawa?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer-panel">
+                    Absolutely. We provide comprehensive relocation support, offering flexible virtual walkthroughs and streamlined house-hunting itineraries to ensure a smooth, stress-free transition into the city.
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-accordion-item">
+                <button type="button" class="faq-question-btn" onclick="toggleFaq(this)">
+                    <span>What areas of Ottawa do you service?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer-panel">
+                    We proudly service Kanata, Barrhaven, Nepean, Orleans, and surrounding urban and suburban Ottawa neighborhoods.
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-accordion-item">
+                <button type="button" class="faq-question-btn" onclick="toggleFaq(this)">
+                    <span>How is my Ottawa property's market value calculated?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer-panel">
+                    Unlike automated online estimates that miss recent upgrades or neighborhood specifics, we manually analyze recent comparable sold properties, current active listings, and current local market trends to determine a precise value.
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-container">
@@ -381,8 +458,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <!-- Interactive Logic Controller with Auto-Scroll & Auto-Focus -->
     <script>
-        let isSubmitted = false;
-        function submitted() { isSubmitted = true; }
+        let isSellingSubmitted = false;
+        let isBuyingSubmitted = false;
+
+        function submittedSelling() { isSellingSubmitted = true; }
+        function submittedBuying() { isBuyingSubmitted = true; }
 
         function switchMode(mode) {
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -419,10 +499,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         function showSuccessMessage(paneId) {
-            const pane = document.getElementById(paneId);
-            pane.querySelector('form').style.display = 'none';
-            pane.querySelector('.formSuccessBox').style.display = 'block';
-            pane.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (paneId === 'pane-selling') {
+                document.getElementById('valuationForm').style.display = 'none';
+                document.getElementById('formSuccessSelling').style.display = 'block';
+                document.getElementById('valuationFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (paneId === 'pane-buying') {
+                document.getElementById('buyerForm').style.display = 'none';
+                document.getElementById('formSuccessBuying').style.display = 'block';
+                document.getElementById('buyerFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Accordion FAQ Toggle Logic (Auto-collapses previous items)
+        function toggleFaq(button) {
+            const currentItem = button.parentElement;
+            const isActive = currentItem.classList.contains('active');
+
+            // Close all FAQ items
+            document.querySelectorAll('.faq-accordion-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // If it wasn't active, open it
+            if (!isActive) {
+                currentItem.classList.add('active');
+            }
         }
     </script>
 </body>
